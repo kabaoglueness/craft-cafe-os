@@ -108,7 +108,7 @@ Personel paneline giriş yapmak için aşağıdaki hesaplar kullanılabilir:
 ## Dizin yapısı
 
 ```
-workshop-cafe/
+craft-cafe-os/
 ├── public/                 # Statik SVG ve ikon varlıkları
 ├── src/
 │   ├── app/
@@ -158,8 +158,8 @@ workshop-cafe/
 
 ### 1. Depoyu indirin
 ```bash
-git clone https://github.com/username/workshop-cafe.git
-cd workshop-cafe
+git clone https://github.com/kabaoglueness/craft-cafe-os.git
+cd craft-cafe-os
 ```
 
 ### 2. Bağımlılıkları kurun
