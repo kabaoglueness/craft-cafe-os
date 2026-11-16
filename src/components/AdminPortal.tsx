@@ -36,10 +36,13 @@ import {
   Upload,
   Image as ImageIcon,
   Star,
-  LogOut
+  LogOut,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { WorkshopCategory, CafeCategory, WorkshopItem, CafeItem, StaffRole, StaffUser } from '../types';
+import { compressImageFile } from '../utils/imageCompression';
 
 export const AdminPortal: React.FC = () => {
   const { 
@@ -184,11 +187,19 @@ export const AdminPortal: React.FC = () => {
       ctx.strokeStyle = '#E7DFD5';
       ctx.stroke();
 
-      // Load QR Image onto canvas
+      // Load QR Image onto canvas safely with timeout and error handling
       const img = new Image();
-      img.src = qrDataUrl;
-      await new Promise((resolve) => {
-        img.onload = resolve;
+      await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('QR görseli yükleme zaman aşımına uğradı')), 5000);
+        img.onload = () => {
+          clearTimeout(timer);
+          resolve();
+        };
+        img.onerror = (err) => {
+          clearTimeout(timer);
+          reject(err);
+        };
+        img.src = qrDataUrl;
       });
       ctx.drawImage(img, qrBoxX + 40, qrBoxY + 40, 480, 480);
 
@@ -253,6 +264,7 @@ export const AdminPortal: React.FC = () => {
   const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
   const [editPasscode, setEditPasscode] = useState('');
   const [editRole, setEditRole] = useState<StaffRole>('kitchen');
+  const [revealedPasscodes, setRevealedPasscodes] = useState<Record<string, boolean>>({});
 
   // Form states
   const [isAddingWorkshop, setIsAddingWorkshop] = useState(false);
@@ -269,18 +281,19 @@ export const AdminPortal: React.FC = () => {
   ]);
   const [customPhotoUrl, setCustomPhotoUrl] = useState('');
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          setNewWsPhotos(prev => [...prev, event.target!.result as string]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
+    for (const file of Array.from(files)) {
+      try {
+        const compressedDataUrl = await compressImageFile(file, 800, 0.75);
+        setNewWsPhotos(prev => [...prev, compressedDataUrl]);
+      } catch (err) {
+        console.warn('Görsel sıkıştırma hatası:', err);
+      }
+    }
+    // reset input value so same file can be re-selected if desired
+    e.target.value = '';
   };
 
   const handleAddPhotoUrl = () => {
@@ -1682,8 +1695,17 @@ export const AdminPortal: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => {
-                          if (navigator.clipboard) {
-                            navigator.clipboard.writeText(tableUrl);
+                          if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(tableUrl).catch(() => {});
+                          } else {
+                            try {
+                              const textarea = document.createElement('textarea');
+                              textarea.value = tableUrl;
+                              document.body.appendChild(textarea);
+                              textarea.select();
+                              document.execCommand('copy');
+                              document.body.removeChild(textarea);
+                            } catch {}
                           }
                           setCopiedTable(tableNum);
                           setTimeout(() => setCopiedTable(null), 2000);
@@ -1973,9 +1995,17 @@ export const AdminPortal: React.FC = () => {
                               className="px-2 py-1 bg-white border border-[#E7DFD5] rounded-lg text-xs font-mono w-28 text-[#211D1A]"
                             />
                           ) : (
-                            <div className="flex items-center gap-1.5 text-xs font-mono text-[#4A423D] bg-[#FAF7F2] px-2 py-1 rounded-md border border-[#E7DFD5] w-fit">
+                            <div className="flex items-center gap-2 text-xs font-mono text-[#4A423D] bg-[#FAF7F2] px-2.5 py-1 rounded-md border border-[#E7DFD5] w-fit">
                               <KeyRound className="w-3 h-3 text-[#8C827A]" />
-                              <span>{member.passcode}</span>
+                              <span>{revealedPasscodes[member.id] ? member.passcode : '••••••••'}</span>
+                              <button
+                                type="button"
+                                onClick={() => setRevealedPasscodes(prev => ({ ...prev, [member.id]: !prev[member.id] }))}
+                                className="text-[#8C827A] hover:text-[#211D1A] ml-1 transition-colors cursor-pointer"
+                                title={revealedPasscodes[member.id] ? 'Şifreyi Gizle' : 'Şifreyi Göster'}
+                              >
+                                {revealedPasscodes[member.id] ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                              </button>
                             </div>
                           )}
                         </td>

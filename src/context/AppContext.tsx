@@ -121,9 +121,22 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+function safeSetStorage(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (err) {
+    if (err instanceof DOMException && (err.name === 'QuotaExceededError' || (err as any).code === 22)) {
+      console.warn(`Tarayıcı yerel depolama kotası aşıldı (${key}).`);
+    } else {
+      console.warn(`LocalStorage yazma hatası (${key}):`, err);
+    }
+  }
+}
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [activeView, setActiveView] = useState<UserRoleView>('store');
   const [currentStaff, setCurrentStaff] = useState<StaffUser | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Auto scroll to top on view changes
   useEffect(() => {
@@ -133,7 +146,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [activeView]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
       (window as any).__setActiveView = setActiveView;
     }
   }, [setActiveView]);
@@ -148,6 +161,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<ActiveOrder[]>(INITIAL_ORDERS);
   const [activeOrderId, setActiveOrderId] = useState<string | null>('SIP-401');
+
+  const handleSetTableNumber = (tbl: number) => {
+    const maxTables = venueSettings.tableCount || 18;
+    const bounded = Math.min(Math.max(1, tbl), maxTables);
+    setTableNumber(bounded);
+  };
 
   // Local storage synchronization (v5 purge)
   useEffect(() => {
@@ -200,6 +219,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (savedStaff) {
       try { setStaffList(JSON.parse(savedStaff)); } catch (e) { console.error(e); }
     }
+    const savedCart = localStorage.getItem('ab_cart_v1');
+    if (savedCart) {
+      try { setCart(JSON.parse(savedCart)); } catch (e) { console.error(e); }
+    }
 
     // Table QR Code auto-detection from URL (e.g. ?table=12, ?masa=12, ?m=12)
     if (typeof window !== 'undefined') {
@@ -208,8 +231,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       if (tableQuery) {
         const parsed = parseInt(tableQuery, 10);
         if (!isNaN(parsed) && parsed > 0) {
-          setTableNumber(parsed);
-          localStorage.setItem('ab_active_table', parsed.toString());
+          const maxTbl = venueSettings.tableCount || 18;
+          const bounded = Math.min(parsed, maxTbl);
+          setTableNumber(bounded);
+          safeSetStorage('ab_active_table', bounded.toString());
         }
       } else {
         const savedTable = localStorage.getItem('ab_active_table');
@@ -221,42 +246,49 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         }
       }
     }
+
+    setIsHydrated(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('ab_active_table', tableNumber.toString());
-  }, [tableNumber]);
+    if (!isHydrated) return;
+    safeSetStorage('ab_active_table', tableNumber.toString());
+  }, [tableNumber, isHydrated]);
 
   useEffect(() => {
-    localStorage.setItem('ab_orders', JSON.stringify(orders));
-  }, [orders]);
+    if (!isHydrated) return;
+    safeSetStorage('ab_orders', JSON.stringify(orders));
+  }, [orders, isHydrated]);
 
   useEffect(() => {
-    localStorage.setItem('ab_venue_settings', JSON.stringify(venueSettings));
-  }, [venueSettings]);
+    if (!isHydrated) return;
+    safeSetStorage('ab_venue_settings', JSON.stringify(venueSettings));
+  }, [venueSettings, isHydrated]);
 
   useEffect(() => {
-    localStorage.setItem('ab_workshop_items_v5', JSON.stringify(workshopItems));
-  }, [workshopItems]);
+    if (!isHydrated) return;
+    safeSetStorage('ab_workshop_items_v5', JSON.stringify(workshopItems));
+  }, [workshopItems, isHydrated]);
 
   useEffect(() => {
-    localStorage.setItem('ab_cafe_items_v5', JSON.stringify(cafeItems));
-  }, [cafeItems]);
+    if (!isHydrated) return;
+    safeSetStorage('ab_cafe_items_v5', JSON.stringify(cafeItems));
+  }, [cafeItems, isHydrated]);
 
   useEffect(() => {
-    localStorage.setItem('ab_staff_list_v2', JSON.stringify(staffList));
-  }, [staffList]);
+    if (!isHydrated) return;
+    safeSetStorage('ab_staff_list_v2', JSON.stringify(staffList));
+  }, [staffList, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    safeSetStorage('ab_cart_v1', JSON.stringify(cart));
+  }, [cart, isHydrated]);
 
   // Staff Authentication & Role Handling
   const loginWithPasscode = (passcode: string): { success: boolean; message?: string } => {
     const clean = passcode.trim().toLowerCase();
-    const user = staffList.find(u => 
-      u.passcode.toLowerCase() === clean || 
-      (clean === 'ayşe' && u.passcode === 'editör') || 
-      (clean === 'editor' && u.passcode === 'editör') ||
-      (clean === 'selin' && u.passcode === 'analist') ||
-      (clean === 'omer' && u.passcode === 'ömer')
-    );
+    const user = staffList.find(u => u.passcode.toLowerCase() === clean);
     if (!user) {
       return { success: false, message: 'Geçersiz personel şifresi. Lütfen tekrar deneyin.' };
     }
@@ -273,7 +305,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
       (window as any).__loginWithPasscode = loginWithPasscode;
     }
   }, [loginWithPasscode]);
@@ -547,10 +579,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const hasCafe = cart.some(i => i.itemType === 'cafe');
 
     const newOrder: ActiveOrder = {
-      id: `SIP-${Math.floor(100 + Math.random() * 900)}`,
+      id: `SIP-${Date.now().toString().slice(-4)}${Math.floor(10 + Math.random() * 90)}`,
       tableNumber,
       customerName: customerName.trim(),
-      createdAt: 'Az önce',
+      createdAt: new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
       status: 'received',
       items: [...cart],
       totalAmount: cartTotal,
@@ -593,7 +625,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       updateStaffUser,
       deleteStaffUser,
       tableNumber,
-      setTableNumber,
+      setTableNumber: handleSetTableNumber,
       customerName,
       setCustomerName,
       workshopItems,

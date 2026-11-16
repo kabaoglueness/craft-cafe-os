@@ -17,6 +17,7 @@ import {
   Package
 } from 'lucide-react';
 import { StationProgressStatus } from '../types';
+import { normalizeStatus } from '../utils/orderStatus';
 
 interface StageMeta {
   id: StationProgressStatus;
@@ -49,16 +50,6 @@ const STAGES: StageMeta[] = [
     cafeText: 'İçecekleriniz masanıza servis edildi. Afiyet olsun!'
   }
 ];
-
-const normalizeStatus = (status: string | undefined): StationProgressStatus => {
-  if (status === 'teslim_edildi' || status === 'masaya_teslim' || status === 'paketlendi' || status === 'servis_edildi') {
-    return 'teslim_edildi';
-  }
-  if (status === 'yola_cikti' || status === 'boyaniyor' || status === 'vernik_kurutma') {
-    return 'yola_cikti';
-  }
-  return 'hazirlaniyor';
-};
 
 export const OrderTrackingView: React.FC = () => {
   const { 

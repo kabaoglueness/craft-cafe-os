@@ -121,7 +121,7 @@ export const StaffLogin: React.FC = () => {
                     <span>Yönetici</span>
                   </div>
                   <div className="text-[11px] text-[#211D1A] font-semibold">Enes</div>
-                  <div className="text-[10px] text-[#8C827A]">Şifre: "enes"</div>
+                  <div className="text-[10px] text-[#8C827A]">Yetkili Girişi</div>
                 </button>
 
                 <button
@@ -131,10 +131,10 @@ export const StaffLogin: React.FC = () => {
                 >
                   <div className="flex items-center gap-1 text-[11px] font-bold text-[#2C5282]">
                     <UserCheck className="w-3.5 h-3.5" />
-                    <span>Kasiyer / KDS</span>
+                    <span>Mutfak / KDS</span>
                   </div>
                   <div className="text-[11px] text-[#211D1A] font-semibold">Ömer</div>
-                  <div className="text-[10px] text-[#8C827A]">Şifre: "ömer"</div>
+                  <div className="text-[10px] text-[#8C827A]">İstasyon Girişi</div>
                 </button>
 
                 <button
@@ -147,7 +147,7 @@ export const StaffLogin: React.FC = () => {
                     <span>Mağaza Editörü</span>
                   </div>
                   <div className="text-[11px] text-[#211D1A] font-semibold">Ayşe</div>
-                  <div className="text-[10px] text-[#8C827A]">Şifre: "editör"</div>
+                  <div className="text-[10px] text-[#8C827A]">Tasarım Girişi</div>
                 </button>
 
                 <button
@@ -160,7 +160,7 @@ export const StaffLogin: React.FC = () => {
                     <span>Finans & Analist</span>
                   </div>
                   <div className="text-[11px] text-[#211D1A] font-semibold">Selin</div>
-                  <div className="text-[10px] text-[#8C827A]">Şifre: "analist"</div>
+                  <div className="text-[10px] text-[#8C827A]">Rapor Girişi</div>
                 </button>
               </div>
 

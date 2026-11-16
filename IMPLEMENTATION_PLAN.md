@@ -175,3 +175,26 @@ Bu plan, projede yapay zeka klişesi (AI slop) oluşturan görsel gürültüleri
 - [x] **13.4: Bütünsel Derleme & Playwright ile Tester Doğrulaması**
   - `npm run build` Turbopack ile sıfır hatayla derlendi.
   - Playwright testi (`verify_all_fixes.py`) 6 farklı ekranda başarıyla tamamlandı ve `audit_fixed_*.png` görselleri üretildi.
+
+---
+
+## Faz 14: Code Review Bulgularının Düzeltilmesi & Güvenilirlik Artırımı
+
+- [x] **14.1: İstemci Tarafı Görsel Sıkıştırma (`imageCompression.ts`) & LocalStorage Quota Koruması**
+  - Yüklenen ham fotoğrafları otomatik olarak Canvas ile max 800px boyutuna ve 0.75 JPEG kalitesine indirgeyen `compressImageFile` yardımcı fonksiyonu yazıldı.
+  - `AppContext.tsx` içerisindeki tüm depolama yazımları `safeSetStorage` ile `try/catch` korumasına alındı; 5 MB kota aşımı (`QuotaExceededError`) engellendi.
+- [x] **14.2: QR Akrilik Kart Canvas Çiziminde Zaman Aşımı ve Hata Koruması (`AdminPortal.tsx`)**
+  - `handleDownloadStandCard` içindeki görsel yükleme Promise'ına `img.onerror` ve 5000ms zaman aşımı koruması eklendi; butonun sonsuz askıda kalması çözüldü.
+- [x] **14.3: Şifre Maskeleme & Hardcoded Bypass Temizliği (`AdminPortal.tsx`, `AppContext.tsx`, `StaffLogin.tsx`)**
+  - Personel tablosundaki açık şifreler varsayılan olarak `••••••••` şeklinde maskelendi, göze tıklanarak açılıp kapanabilir hale getirildi.
+  - `AppContext.tsx:loginWithPasscode` içindeki hardcoded takma ad bypass'ları (`clean === 'ayşe'` vb.) silindi.
+  - `StaffLogin.tsx` hızlı giriş butonlarında açık şifre metinleri kaldırılarak operasyonel rollere dönüştürüldü.
+- [x] **14.4: Hydration Yarış Durumu & Sepet (Cart) Kalıcılığı (`AppContext.tsx`)**
+  - `isHydrated` bayrağı eklendi; mount efekti storage'ı okuyana kadar yazma efektleri bloke edildi.
+  - Müşteri sepeti `ab_cart_v1` ile storage'a bağlandı; sayfa yenilendiğinde seçilen heykel ve içeceklerin silinmesi önlendi.
+- [x] **14.5: Çakışmasız Sipariş Kimliği & Dinamik Saat Formatı (`AppContext.tsx`)**
+  - `SIP-${Date.now().slice(-4)}${random}` ile benzersiz ID üretimi ve `new Date().toLocaleTimeString('tr-TR', ...)` ile gerçek saat formatı sağlandı.
+- [x] **14.6: DRY Refactoring & Masa Sınır Kontrolü (`orderStatus.ts`, `AdminPortal.tsx`)**
+  - `normalizeStatus` fonksiyonu `src/utils/orderStatus.ts` altında tekilleştirildi.
+  - Masa numarası seçiminde `Math.min(Math.max(1, tbl), maxTables)` sınırlandırması getirildi.
+  - Pano kopyalama (`navigator.clipboard`) için güvensiz ortamlarda çalışan fallback eklendi.

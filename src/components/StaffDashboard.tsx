@@ -19,6 +19,7 @@ import {
   KitchenStationStatus,
   StationProgressStatus
 } from '../types';
+import { normalizeStatus } from '../utils/orderStatus';
 
 interface StageConfig {
   id: StationProgressStatus;
@@ -55,16 +56,6 @@ const STAGES: StageConfig[] = [
     badgeColor: 'bg-[#EEF3EC] text-[#4E5E48] border-[#CFDFCB]'
   }
 ];
-
-const normalizeStatus = (status: string | undefined): StationProgressStatus => {
-  if (status === 'teslim_edildi' || status === 'masaya_teslim' || status === 'paketlendi' || status === 'servis_edildi') {
-    return 'teslim_edildi';
-  }
-  if (status === 'yola_cikti' || status === 'boyaniyor' || status === 'vernik_kurutma') {
-    return 'yola_cikti';
-  }
-  return 'hazirlaniyor';
-};
 
 interface StationProgressProps {
   stationType: 'workshop' | 'kitchen';
