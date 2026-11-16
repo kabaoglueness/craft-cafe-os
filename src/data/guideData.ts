@@ -46,7 +46,7 @@ export const CHANGELOG_RELEASES: ChangelogRelease[] = [
     title: 'Mekan Kuralları & Şifreli Personel Portalı',
     changes: [
       'Masada en az 1 içecek ve atölye parçası zorunluluğunu denetleyen mekan kuralları motoru devreye alındı.',
-      'Yönetici (Enes), Kasiyer (Ömer) ve Editör (Ayşe) için tek şifreyle rol ayrımı sağlandı.',
+      'Yönetici (Ahmet), KDS (Deniz) ve Editör (Zeynep) için tek şifreyle rol ayrımı sağlandı.',
       'Müşteri üst barı mobilde sıfır taşma ile tek satıra sığdırıldı.'
     ]
   }
@@ -73,7 +73,7 @@ export const OPERATIONAL_GUIDES: GuideTopic[] = [
     category: 'kds',
     summary: 'Masalardan gelen siparişlerin atölye ve mutfak hazırlık aşamalarını takip etme.',
     steps: [
-      'Kasiyer veya mutfak personeli "ömer" şifresiyle Personel Portalı\'ndan giriş yapar.',
+      'Mutfak ve servis personeli "mutfak" şifresiyle Personel Portalı\'ndan giriş yapar.',
       'Yeni bir masa siparişi düştüğünde kartta masa numarası, müşteri adı ve sipariş kalemleri listelenir.',
       'Aşamayı güncellemek için "Atölye" veya "Mutfak" satırına bir kez tıklayın.',
       'Açılan çizgideki 3 adımdan uygun olanına (1. Hazırlanıyor, 2. Masaya Çıktı, 3. Teslim Edildi) tıklayın.',
@@ -134,7 +134,7 @@ export const FAQ_KAFIYE: { q: string; a: string }[] = [
   },
   {
     q: 'Editör şifresi ile giren kişi finansal ciro verilerini görebilir mi?',
-    a: 'Hayır. Sistem katı bir yetki yalıtımına sahiptir. Editör sadece görsel vitrini düzenleyebilir; ciro, siparişler ve mekan kuralları yalnızca "enes" (Admin) yetkisine açıktır.'
+    a: 'Hayır. Sistem katı bir yetki yalıtımına sahiptir. Editör sadece görsel vitrini düzenleyebilir; ciro, siparişler ve mekan kuralları yalnızca "yonetici" (Admin) yetkisine açıktır.'
   },
   {
     q: 'Kafe menüsüne yeni kahve veya tatlı ekleyebilir miyiz?',

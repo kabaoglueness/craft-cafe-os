@@ -113,40 +113,40 @@ export const StaffLogin: React.FC = () => {
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('enes')}
+                  onClick={() => handleQuickLogin('yonetici')}
                   className="p-2.5 rounded-xl border border-[#E7DFD5] bg-[#FAF7F2] hover:bg-[#F3ECE2] text-left transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-1 text-[11px] font-bold text-[#B3542E]">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Yönetici</span>
                   </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Enes</div>
+                  <div className="text-[11px] text-[#211D1A] font-semibold">Ahmet</div>
                   <div className="text-[10px] text-[#8C827A]">Yetkili Girişi</div>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('ömer')}
+                  onClick={() => handleQuickLogin('mutfak')}
                   className="p-2.5 rounded-xl border border-[#E7DFD5] bg-[#FAF7F2] hover:bg-[#F3ECE2] text-left transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-1 text-[11px] font-bold text-[#2C5282]">
                     <UserCheck className="w-3.5 h-3.5" />
                     <span>Mutfak / KDS</span>
                   </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Ömer</div>
+                  <div className="text-[11px] text-[#211D1A] font-semibold">Deniz</div>
                   <div className="text-[10px] text-[#8C827A]">İstasyon Girişi</div>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('editör')}
+                  onClick={() => handleQuickLogin('editor')}
                   className="p-2.5 rounded-xl border border-[#E7DFD5] bg-[#FAF7F2] hover:bg-[#F3ECE2] text-left transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-1 text-[11px] font-bold text-[#4E5E48]">
                     <LayoutTemplate className="w-3.5 h-3.5" />
                     <span>Mağaza Editörü</span>
                   </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Ayşe</div>
+                  <div className="text-[11px] text-[#211D1A] font-semibold">Zeynep</div>
                   <div className="text-[10px] text-[#8C827A]">Tasarım Girişi</div>
                 </button>
 
@@ -159,13 +159,13 @@ export const StaffLogin: React.FC = () => {
                     <BarChart3 className="w-3.5 h-3.5" />
                     <span>Finans & Analist</span>
                   </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Selin</div>
+                  <div className="text-[11px] text-[#211D1A] font-semibold">Can</div>
                   <div className="text-[10px] text-[#8C827A]">Rapor Girişi</div>
                 </button>
               </div>
 
               <div className="text-[10px] text-[#A69B91] text-center">
-                Enes (Yönetici) • Ömer (KDS) • Ayşe (Vitrin Editörü) • Selin (Finans & Raporlar)
+                Ahmet (Yönetici) • Deniz (KDS) • Zeynep (Vitrin Editörü) • Can (Finans & Analiz)
               </div>
             </div>
           )}

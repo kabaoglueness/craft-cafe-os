@@ -391,7 +391,7 @@ export const AdminPortal: React.FC = () => {
     if (!newStaffName.trim() || !newStaffPasscode.trim()) return;
     addStaffUser({
       name: newStaffName.trim(),
-      phone: newStaffPhone.trim() || '+90 5xx xxx xx xx',
+      phone: newStaffPhone.trim() || '+90 (555) 010 20 30',
       passcode: newStaffPasscode.trim().toLowerCase(),
       role: newStaffRole
     });
@@ -1835,7 +1835,7 @@ export const AdminPortal: React.FC = () => {
                     <input
                       type="text"
                       required
-                      placeholder="Örn: Selin Demir (Finans Uzmanı)"
+                      placeholder="Örn: Deniz Kaya (Operasyon Sorumlusu)"
                       value={newStaffName}
                       onChange={(e) => setNewStaffName(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#E7DFD5] rounded-xl text-xs text-[#211D1A] focus:outline-none focus:border-[#6B46C1]"
@@ -1848,7 +1848,7 @@ export const AdminPortal: React.FC = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="+90 53x xxx xx xx"
+                      placeholder="+90 (555) 010 20 30"
                       value={newStaffPhone}
                       onChange={(e) => setNewStaffPhone(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#E7DFD5] rounded-xl text-xs text-[#211D1A] focus:outline-none focus:border-[#6B46C1]"
@@ -1865,7 +1865,7 @@ export const AdminPortal: React.FC = () => {
                     <input
                       type="text"
                       required
-                      placeholder="Örn: analist2026 veya selin"
+                      placeholder="Örn: yonetici2026 veya mutfak"
                       value={newStaffPasscode}
                       onChange={(e) => setNewStaffPasscode(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#E7DFD5] rounded-xl text-xs font-mono font-semibold text-[#211D1A] focus:outline-none focus:border-[#6B46C1]"

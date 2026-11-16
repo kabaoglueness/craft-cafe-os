@@ -27,10 +27,10 @@ import {
 export type UserRoleView = 'store' | 'customer_menu' | 'order_tracking' | 'login' | 'kitchen' | 'admin' | 'editor';
 
 export const INITIAL_STAFF: StaffUser[] = [
-  { id: 'u-enes', name: 'Enes (İşletme Sahibi)', passcode: 'enes', role: 'admin', phone: '+90 532 710 24 55' },
-  { id: 'u-omer', name: 'Ömer (Mutfak & KDS)', passcode: 'ömer', role: 'kitchen', phone: '+90 533 840 19 23' },
-  { id: 'u-ayse', name: 'Ayşe (Mağaza Editörü)', passcode: 'editör', role: 'editor', phone: '+90 535 620 44 12' },
-  { id: 'u-selin', name: 'Selin (Finans & Analist)', passcode: 'analist', role: 'analyst', phone: '+90 536 410 77 90' },
+  { id: 'u-ahmet', name: 'Ahmet Yılmaz (İşletme Yöneticisi)', passcode: 'yonetici', role: 'admin', phone: '+90 (555) 010 20 30' },
+  { id: 'u-deniz', name: 'Deniz Kaya (KDS Sorumlusu)', passcode: 'mutfak', role: 'kitchen', phone: '+90 (555) 010 20 31' },
+  { id: 'u-zeynep', name: 'Zeynep Demir (Vitrin Editörü)', passcode: 'editor', role: 'editor', phone: '+90 (555) 010 20 32' },
+  { id: 'u-can', name: 'Can Arslan (Finans & Analist)', passcode: 'analist', role: 'analyst', phone: '+90 (555) 010 20 33' },
 ];
 
 export const REGISTERED_STAFF = INITIAL_STAFF;
@@ -207,7 +207,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setVenueSettings(parsed); 
       } catch (e) { console.error(e); }
     }
-    const savedWorkshop = localStorage.getItem('ab_workshop_items_v5');
+    const savedWorkshop = localStorage.getItem('ab_workshop_items_v6');
     if (savedWorkshop) {
       try { setWorkshopItems(JSON.parse(savedWorkshop)); } catch (e) { console.error(e); }
     }
@@ -215,7 +215,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (savedCafe) {
       try { setCafeItems(JSON.parse(savedCafe)); } catch (e) { console.error(e); }
     }
-    const savedStaff = localStorage.getItem('ab_staff_list_v2');
+    const savedStaff = localStorage.getItem('ab_staff_list_v3');
     if (savedStaff) {
       try { setStaffList(JSON.parse(savedStaff)); } catch (e) { console.error(e); }
     }
@@ -267,7 +267,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isHydrated) return;
-    safeSetStorage('ab_workshop_items_v5', JSON.stringify(workshopItems));
+    safeSetStorage('ab_workshop_items_v6', JSON.stringify(workshopItems));
   }, [workshopItems, isHydrated]);
 
   useEffect(() => {
@@ -277,7 +277,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isHydrated) return;
-    safeSetStorage('ab_staff_list_v2', JSON.stringify(staffList));
+    safeSetStorage('ab_staff_list_v3', JSON.stringify(staffList));
   }, [staffList, isHydrated]);
 
   useEffect(() => {

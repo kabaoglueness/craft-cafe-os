@@ -236,6 +236,34 @@ export const INITIAL_WORKSHOP_ITEMS: WorkshopItem[] = [
     availableExtras: [
       { id: 'ext-texture', name: '3D Doku Harcı (Rölyef)', price: 70, category: 'addon' }
     ]
+  },
+  {
+    id: 'candle-botanical',
+    category: 'candle',
+    title: 'Botanik Soya Mumu & Koku Atölyesi',
+    description: '%100 doğal soya mumu, ahşap fitil, kurutulmuş çiçek yaprakları ve amber cam kavanoz ile masanızda koku tasarımı.',
+    image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=600&auto=format&fit=crop&q=80',
+    badge: 'Yeni',
+    difficulty: 'Başlangıç',
+    estimatedMinutes: 45,
+    isAvailable: true,
+    stockCount: 10,
+    totalSold: 29,
+    sizes: [
+      { id: 'cd-200', name: 'Standart Amber Kavanoz (200 ml)', dimensions: '8 x 7 cm', price: 340, isPopular: true },
+      { id: 'cd-350', name: 'Geniş Çift Fitilli Kase (350 ml)', dimensions: '11 x 8 cm', price: 460 },
+    ],
+    includedKit: [
+      'Eritilmiş Doğal Soya Mumu Tabanı',
+      'Çıtırtılı Ahşap Fitil ve Metal Sabitleyici',
+      'Lavanta ve Sedir Ağacı Esansiyel Yağları',
+      'Kurutulmuş Portakal Dilimleri ve Lavanta Başakları',
+      'Kişiselleştirilebilir Kraft Etiket'
+    ],
+    availableExtras: [
+      { id: 'ext-vanilla', name: 'Ekstra Vanilya & Tarçın Esansı', price: 50, category: 'addon' },
+      { id: 'ext-giftbox', name: 'Kraft Hediye Kutusu ve Mühür', price: 50, category: 'addon' }
+    ]
   }
 ];
 
