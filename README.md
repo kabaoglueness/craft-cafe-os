@@ -1,4 +1,4 @@
-# Atelier & Brew — Workshop & Specialty Cafe Ecosystem
+# Atelier & Brew | Atölye ve Kafe Sipariş Sistemi
 
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.0.3-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
@@ -6,88 +6,85 @@
 [![Turbopack](https://img.shields.io/badge/Turbopack-Enabled-000000?style=flat-square&logo=vercel)](https://turbo.build/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=flat-square)](LICENSE)
 
-> **Zanaat ve Nitelikli Kahvenin Fiziksel Operasyon Ekosistemi:**  
-> Ham seramik, heykel boyama, tuval ve koku atölyeleriyle özel demleme kahve barını aynı masa deneyiminde buluşturan; müşteri QR sipariş akışından çok istasyonlu KDS ekranlarına, kodsuz görsel vitrin editöründen akrilik stand baskı motoruna kadar uçtan uca tasarlanmış hibrit işletim sistemi.
+Atelier & Brew, heykel ve seramik atölyesi ile kahve barını aynı çatı altında işleten mekanlar için geliştirilmiş bir masa sipariş ve istasyon yönetim sistemidir. Masada oturan müşterinin telefonundan verdiği siparişi atölye ve mutfak hazırlık ekranlarına iletir, durumu canlı takip ettirir ve vitrin düzenini kod yazmadan yönetmeyi sağlar.
 
 ---
 
-## 🎨 Tasarım Felsefesi: Anti-Slop & Craft-Floor
+## Tasarım ilkeleri
 
-Bu proje, geleneksel şablon veya yapay zeka arayüzlerinin aksine **gerçek bir fiziksel atölye-kafe operasyonunun ("craft-floor")** saha ihtiyaçlarına göre inşa edilmiştir:
-
-1. **Craft-Floor Gerçekliği:** Masalarda çamur, boya ve fırça bulunur; müşterinin elleri ıslak veya boyalıdır. Arayüzler göz boyayan süsler değil; tek dokunuşla çalışan, milimetrik ergonomiye sahip butonlar ve net tipografik hiyerarşiler sunar.
-2. **Kurumsal & Sakin Tipografi:** Yapay zeka klişesi baloncuklu sans-serif fontlar yerine endüstri standardı nötr sans (`Inter`) ve zanaatkar ruhu yansıtan asil serif (`Cormorant Garamond`) dengesi.
-3. **Sıfır Gürültü (Zero-Slop UI):** Anlamsız büyük harf kicker etiketleri (`uppercase tracking-wider`), yanıp sönen neon noktalar ve süslü jargonlar ayıklanmış; her ekranın bir sonraki mantıksal eylemi doğrudan yönlendirmesi sağlanmıştır.
-4. **Fiziksel POS Uyumu:** Müşteriden gereksiz kart formu istemek yerine, deneyim sonunda masaya gelecek kablosuz POS veya kasadan ödeme modelini şeffaf şekilde haber verir.
+1. **Fiziksel zemin gerçekliği.** Seramik ve heykel masalarında boya, su ve fırça bulunur. Buton boyutları parmak alanına göre dengelenmiştir, gereksiz form adımları içermez.
+2. **Nötr ve okunaklı tipografi.** Gövde metinleri, butonlar ve tablolarda Inter kullanılır. Başlıklarda zanaat atmosferine uygun Cormorant Garamond tercih edilir. Kalın ağırlıklarda baloncuklu veya oyuncak vari duran geometrik sans fontlar kullanılmaz.
+3. **Gereksiz görsel gürültünün engellenmesi.** Büyük harfli üst etiketler (kicker), yanıp sönen noktalar ve anlamsız emojiler arayüzde yer almaz. Her ekran kullanıcıyı doğrudan bir sonraki operasyonel adıma yönlendirir.
+4. **Fiziksel ödeme uyumu.** Masada kart formu açmak yerine, hesabın seans sonunda kablosuz POS veya kasadan ödeneceğini şeffaf biçimde belirtir.
 
 ---
 
-## 🚀 Öne Çıkan Özellikler
+## Özellikler
 
-### 1. Masaya Özel Canlı QR Menü & Sipariş Akışı
-- URL parametrelerinden (`?table=4`, `?masa=7`) masa numarasını otomatik algılama ve seans boyunca koruma.
-- Heykel ve seramiklerde boy, ebat, dahil edilen kitler ve opsiyonel eklentiler (altın varak kiti, detay fırçaları, mühürlü kraft hediye kutusu).
-- İçeceklerde süt türü (yulaf, badem, hindistan cevizi) ve şeker oranı kişiselleştirmeleri.
-- **Mekan Kuralları Motoru:** Masada en az 1 içecek ve atölye parçası zorunluluğunu anlık denetleyen nazik rehberlik mantığı.
+### Masaya özel QR menü ve sipariş akışı
+- URL parametresinden (`?table=4`) masa numarasını otomatik algılar ve oturum boyunca saklar.
+- Heykel ve seramik modellerinde boyut, fırça ve boya seti içeriği ile ek malzeme seçenekleri sunar.
+- İçeceklerde süt çeşidi ve tatlılık oranı tercihlerini kaydeder.
+- Masada en az bir içecek veya atölye ürünü kuralını sipariş aşamasında denetler.
 
-### 2. Canlı Müşteri Sipariş Takip Ekranı
-- Müşterinin telefonundan siparişin anlık ilerlemesini adım adım izlemesi.
-- **Atölye İstasyonu:** `Boya Kiti Hazırlanıyor` ➔ `Masaya Çıktı` ➔ `Teslim Edildi`.
-- **Kahve Barı:** `Özel Demleme Başladı` ➔ `Servise Çıktı` ➔ `Afiyet Olsun`.
+### Canlı sipariş takip ekranı
+- Müşteri, siparişinin atölye ve mutfaktaki durumunu telefonundan canlı izler.
+- Atölye hazırlığı: Malzeme toplanıyor, masaya çıktı, teslim edildi.
+- Mutfak hazırlığı: Demleme başladı, masaya çıktı, teslim edildi.
 
-### 3. Çift İstasyonlu Kasiyer & Mutfak KDS (Kitchen Display System)
-- Atölye hazırlık masası ve espresso barı için bağımsız veya birleşik filtreleme.
-- Tek dokunuşla 3 adımlı çizgisel durum ilerletme.
-- Masa kalktığında tek tıkla adisyonu arşivleme ve masayı yeni konuklara açma.
+### KDS istasyon hazırlık ekranı
+- Atölye ve mutfak hazırlıklarını ayrı veya birleşik filtreler.
+- Tek dokunuşla siparişi sonraki aşamaya taşır (Masaya Çıkar, Teslim Et).
+- Seans bittiğinde masayı tek butonla kapatarak yeni müşteriye açar.
 
-### 4. Kodsuz Görsel Mağaza Düzenleyicisi (Store Customizer)
-- Hero afişi, buton metinleri, rozetler ve çalışma saatlerini canlı önizlemeyle düzenleme.
-- **Dinamik Bölüm Sıralaması:** Sayfa bloklarını (Rehber, Öne Çıkanlar, Konum, SSS, Özel Etkinlikler) yukarı/aşağı oklarla yeniden sıralama veya tek tıkla gizleme/açma.
-- Canlı Masaüstü ve Mobil simülasyon çerçevesi.
+### Vitrin düzenleyicisi
+- Manşet afişini, karşılama metinlerini ve buton yazılarını canlı önizleme ile düzenler.
+- Sayfa bölümlerini yukarı ve aşağı butonlarıyla sıralar veya gizler.
+- Masaüstü ve mobil ekran görünümlerini anlık simüle eder.
 
-### 5. Çoklu Fotoğraf Galerisi & Akıllı Canvas Sıkıştırma
-- Yeni model eklerken tekli veya çoklu fotoğraf yükleme.
-- `HTML5 Canvas API` ile tarayıcı tarafında otomatik yeniden boyutlandırma ve WebP/JPEG optimizasyonu; depolama ve bant genişliğini korur.
+### Çoklu fotoğraf galerisi ve görsel sıkıştırma
+- Yeni model eklerken dosya seçiciyle birden fazla fotoğraf yüklenmesini sağlar.
+- HTML5 Canvas ile görselleri tarayıcıda 800 piksele ve yüzde 75 kaliteye otomatik sıkıştırır, yerel depolama kotasını korur.
+- Kapak görselini tek dokunuşla belirleme imkanı verir.
 
-### 6. Akrilik Masa QR Standı Üretim Motoru (Print Engine)
-- Kafe masalarındaki akrilik T-standlar için yüksek çözünürlüklü vektörel QR kod ve zanaat tipografili baskı şablonu üretimi.
-- Masa numarası seçimiyle doğrudan tarayıcıdan yazdırmaya veya PDF olarak kaydetmeye hazır baskı düzeni.
+### Akrilik masa QR standı baskı aracı
+- Masalara konulacak akrilik standlar için masa numarasına özel vektörel QR kod ve şablon üretir.
+- Doğrudan tarayıcıdan yazdırmaya veya PNG olarak kaydetmeye hazır çıktı verir.
 
-### 7. Rol Bazlı Yetki Yönetimi (RBAC & Strict Isolation)
-- Şifreli tek giriş alanı ile personele özel rol ataması.
-- **Yönetici (Admin):** Tam yetki, ürün ekleme/silme, fiyat değiştirme, personel yönetimi, mekan kuralları.
-- **Mutfak / KDS:** Yalnızca istasyon sipariş hazırlık ekranı.
-- **Vitrin Editörü:** Yalnızca görsel mağaza düzenleyicisi; ciro, fiyat ve müşteri verilerine erişim katı şekilde engellidir.
-- **Finans & Analist:** Salt-okunur ciro, sepet ortalaması ve saatlik yoğunluk raporları; ürün silemez, şifreleri göremez.
+### Rol bazlı yetkilendirme (RBAC)
+- **Yönetici:** Envanter ekleme ve silme, fiyat güncelleme, personel şifreleri, mekan kuralları ve tam yetki.
+- **Mutfak / KDS:** Yalnızca istasyon sipariş ekranı.
+- **Vitrin Editörü:** Yalnızca görsel vitrin düzenleyicisi. Ciro, fiyat ve müşteri kayıtlarına erişemez.
+- **Finans & Analist:** Salt okunur ciro, sepet ortalaması ve yoğunluk raporları. Ürün silemez, şifreleri değiştiremez.
 
 ---
 
-## 🔐 Demo Personel Profilleri
+## Demo hesapları
 
-Personel Portalı'na giriş yapmak için aşağıdaki demo profillerini kullanabilirsiniz:
+Personel paneline giriş yapmak için aşağıdaki hesaplar kullanılabilir:
 
-| Rol | Ad Soyad / Ünvan | Giriş Şifresi | Yetki Kapsamı |
+| Rol | Yetkili | Şifre | Yetki kapsamı |
 | :--- | :--- | :---: | :--- |
-| **Yönetici** | Ahmet Yılmaz (İşletme Yöneticisi) | `yonetici` | Tam Yetki, Envanter, Fiyatlar, Personel, Ayarlar |
-| **Mutfak & KDS** | Deniz Kaya (KDS Sorumlusu) | `mutfak` | Atölye & Mutfak Sipariş İlerleme Ekranı |
-| **Mağaza Editörü** | Zeynep Demir (Vitrin Editörü) | `edit` | Görsel Mağaza Düzenleyicisi & Sıralama |
-| **Finans & Analist** | Can Arslan (Finans & Analist) | `analiz` | Salt-Okunur Gelir Raporları & Saatlik Yoğunluk |
+| **Yönetici** | Ahmet Yılmaz | `yonetici` | Tam sistem yetkisi, envanter, fiyatlar, ayarlar |
+| **Mutfak / KDS** | Deniz Kaya | `mutfak` | Atölye ve mutfak hazırlık ekranı |
+| **Vitrin Editörü** | Zeynep Demir | `edit` | Vitrin düzenleyicisi ve bölüm sıralaması |
+| **Finans & Analist** | Can Arslan | `analiz` | Salt okunur gelir ve yoğunluk analitiği |
 
 ---
 
-## 🛠️ Teknoloji Mimarisi
+## Mimari ve kütüphaneler
 
-- **Framework:** [Next.js 16 (App Router)](https://nextjs.org/) + [React 19](https://react.dev/)
-- **Derleyici & Paketleyici:** [Turbopack](https://turbo.build/)
-- **Dil:** [TypeScript](https://www.typescriptlang.org/) (Katı tip güvenliği)
-- **Stil & Tasarım Sistemi:** [Tailwind CSS v4](https://tailwindcss.com/)
-- **İkonografi:** [Lucide Icons](https://lucide.dev/)
-- **Medya İşleme:** HTML5 Canvas API (İstemci taraflı fotoğraf sıkıştırma & QR stand render)
-- **Durum Yönetimi:** React Context API + LocalStorage State Machine (Versiyonlu hidrasyon)
+- **Çatı:** [Next.js 16 (App Router)](https://nextjs.org/) ve [React 19](https://react.dev/)
+- **Paketleyici:** [Turbopack](https://turbo.build/)
+- **Tip sistemi:** [TypeScript](https://www.typescriptlang.org/)
+- **Stil:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **İkonlar:** [Lucide](https://lucide.dev/)
+- **Görsel işleme:** HTML5 Canvas API (İstemci taraflı sıkıştırma ve QR stand çıktısı)
+- **Durum yönetimi:** React Context API ve LocalStorage senkronizasyonu
 
 ---
 
-## 📁 Proje Dizin Yapısı
+## Dizin yapısı
 
 ```
 workshop-cafe/
@@ -95,72 +92,72 @@ workshop-cafe/
 ├── src/
 │   ├── app/
 │   │   ├── favicon.ico
-│   │   ├── globals.css     # Tailwind v4 tema değişkenleri ve tipografi
-│   │   ├── layout.tsx      # Root layout, meta etiketleri ve fontlar
-│   │   └── page.tsx        # Ana durum orkestrasyon sayfası
+│   │   ├── globals.css     # Tema değişkenleri ve tipografi
+│   │   ├── layout.tsx      # Kök düzen, meta veriler ve font tanımları
+│   │   └── page.tsx        # Ana sayfa ve görünüm yönlendirici
 │   ├── components/
-│   │   ├── AdminGuide.tsx          # Operasyonel personel el kitabı & changelog
-│   │   ├── AdminPortal.tsx         # Yönetici konsolu, envanter, RBAC ve QR üretici
-│   │   ├── AnalyticsDashboard.tsx  # Ciro, atölye/kafe kırılımı ve saatlik yoğunluk
-│   │   ├── CafeModal.tsx           # İçecek detay ve süt/tatlılık seçim penceresi
-│   │   ├── CartDrawer.tsx          # Sepet çekmecesi ve mekan kuralı doğrulayıcı
+│   │   ├── AdminGuide.tsx          # Personel kullanım rehberi
+│   │   ├── AdminPortal.tsx         # Yönetim paneli, envanter ve QR stand motoru
+│   │   ├── AnalyticsDashboard.tsx  # Ciro, ürün kırılımı ve saatlik yoğunluk
+│   │   ├── CafeModal.tsx           # İçecek detay ve süt seçimi penceresi
+│   │   ├── CartDrawer.tsx          # Adisyon çekmecesi ve kural denetimi
 │   │   ├── CustomerMenu.tsx        # Kategori filtreli müşteri menüsü
-│   │   ├── Header.tsx              # Üst navigasyon barı ve masa rozeti
-│   │   ├── OrderTrackingView.tsx   # Canlı müşteri sipariş takip ekranı
-│   │   ├── StaffDashboard.tsx      # Kasiyer ve mutfak KDS hazırlık ekranı
-│   │   ├── StaffLogin.tsx          # Şifreli personel giriş portali
-│   │   ├── StoreCustomizer.tsx     # Kodsuz görsel vitrin düzenleyicisi
-│   │   ├── StoreLanding.tsx        # Karşılama, hikaye ve vitrin ekranı
-│   │   └── WorkshopModal.tsx       # Atölye boy/eklenti seçim penceresi
+│   │   ├── Header.tsx              # Üst çubuk ve masa göstergesi
+│   │   ├── OrderTrackingView.tsx   # Canlı sipariş takip ekranı
+│   │   ├── StaffDashboard.tsx      # İstasyon hazırlık ekranı (KDS)
+│   │   ├── StaffLogin.tsx          # Şifreli personel giriş ekranı
+│   │   ├── StoreCustomizer.tsx     # Vitrin düzenleyicisi
+│   │   ├── StoreLanding.tsx        # Karşılama ve tanıtım sayfası
+│   │   └── WorkshopModal.tsx       # Atölye modeli ve boy seçimi penceresi
 │   ├── context/
-│   │   └── AppContext.tsx          # Merkezi durum, sepet, siparişler ve auth
+│   │   └── AppContext.tsx          # Durum yönetimi, sepet, siparişler ve kimlik doğrulama
 │   ├── data/
-│   │   ├── guideData.ts            # Sürüm notları ve personel rehber konuları
-│   │   └── mockData.ts             # Gerçekçi atölye & kafe envanteri, menü ve siparişler
+│   │   ├── guideData.ts            # Personel el kitabı başlıkları
+│   │   └── mockData.ts             # Atölye modelleri, menü ve örnek siparişler
 │   ├── types/
-│   │   └── index.ts                # TypeScript arayüz ve tip tanımları
+│   │   └── index.ts                # Veri modelleri ve tip tanımları
 │   └── utils/
-│       ├── imageCompression.ts     # Canvas tabanlı istemci resim sıkıştırma
-│       └── orderStatus.ts          # KDS sipariş adımları ve rozet stilleri
+│       ├── imageCompression.ts     # Canvas ile istemci görsel sıkıştırma
+│       └── orderStatus.ts          # İstasyon aşama adımları yardımcı fonksiyonu
 ├── docs/
-│   └── DESIGN_SPEC_ANTI_SLOP.md   # Kurumsal tasarım manifestosu ve şartnamesi
-├── .env.example            # Örnek çevre değişkenleri
-├── .gitignore              # Güvenli git dışlama kuralları
+│   └── DESIGN_SPEC_ANTI_SLOP.md   # Tasarım manifestosu ve kural şartnamesi
+├── .env.example
+├── .gitignore
 ├── package.json
 └── README.md
 ```
 
 ---
 
-## ⚡ Hızlı Kurulum & Yerel Çalıştırma
+## Kurulum ve yerel çalıştırma
 
 ### Gereksinimler
-- Node.js 18.18+ veya Node.js 20+
+- Node.js 18.18 veya üzeri
 - npm, pnpm veya yarn
 
-### 1. Depoyu Klonlayın
+### 1. Depoyu indirin
 ```bash
 git clone https://github.com/username/workshop-cafe.git
 cd workshop-cafe
 ```
 
-### 2. Bağımlılıkları Yükleyin
+### 2. Bağımlılıkları kurun
 ```bash
 npm install
 ```
 
-### 3. Geliştirme Sunucusunu Başlatın
+### 3. Geliştirme sunucusunu başlatın
 ```bash
 npm run dev
 ```
 
-Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açarak uygulamayı deneyimleyebilirsiniz.
+Tarayıcıda [http://localhost:3000](http://localhost:3000) adresini açın.
 
-Masa numarası simülasyonu için URL'ye masa parametresi ekleyebilirsiniz:
-- [http://localhost:3000?table=4](http://localhost:3000?table=4) (4 Numaralı Masa)
-- [http://localhost:3000?table=12](http://localhost:3000?table=12) (12 Numaralı Masa)
+Masa numarası simülasyonu için adres sonuna parametre ekleyebilirsiniz:
+- [http://localhost:3000?table=4](http://localhost:3000?table=4) (Masa 4)
+- [http://localhost:3000?table=12](http://localhost:3000?table=12) (Masa 12)
 
-### 4. Üretim Derlemesi (Production Build)
+### 4. Üretim derlemesi
 ```bash
 npm run build
 npm run start
@@ -168,6 +165,6 @@ npm run start
 
 ---
 
-## 📄 Lisans
+## Lisans
 
-Bu proje [MIT Lisansı](LICENSE) kapsamında lisanslanmıştır. Kişisel ve ticari portföy kullanımlarına açıktır.
+Bu proje [MIT Lisansı](LICENSE) ile sunulmaktadır.
