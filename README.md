@@ -10,6 +10,27 @@ Atelier & Brew, heykel ve seramik atölyesi ile kahve barını aynı çatı alt�
 
 ---
 
+## Ortaya çıkış hikayesi
+
+Geleneksel restoran yazılımları ve QR menüler tek bir varsayım üzerine kuruludur: Müşteri masaya oturur, yemeğini seçer, tüketir ve hesabı ödeyip kalkar. Ancak son yıllarda hızla çoğalan seramik boyama, heykel atölyesi, koku ve tuval kafeleri gibi deneyim odaklı mekanlarda bu model doğrudan tıkanır.
+
+Bu mekanlarda masalar boya paletleri, su kapları, zımparalar ve fırçalarla doludur. Müşterinin elleri ıslak veya boyalıdır. Önüne 10 adımlık karmaşık sipariş formları veya masada online kredi kartı ödeme ekranı koyduğunuzda yaratıcı deneyim bölünür. Daha da kritik olan operasyonel ayrım şudur: Bir masadan verilen sipariş tek bir hazırlık hattına gitmez. Aynı anda hem 10 dakika içinde masaya ulaşması gereken bir Flat White, hem de atölye istasyonundan hazırlanıp teslim edilmesi gereken ham heykel, boya seti ve fırça kiti vardır.
+
+Mevcut restoran POS sistemleri heykel ebatlarını ve boya kitlerini takip edemez. Atölye randevu yazılımları ise anlık kafe siparişini, mutfak kuyruğunu ve masa adisyonunu yönetemez. Atelier & Brew, bu iki ayrı operasyonun fiziksel sahada yarattığı sürtünmeyi çözmek için geliştirildi.
+
+---
+
+## Ürün mantığı ve pazar değeri
+
+Bu sistem, hibrit hobi ve yeme-içme mekanlarının temel ticari gereksinimlerini tek panelde toplar:
+
+1. **Çift hatlı istasyon yönetimi (KDS).** Tek bir masa siparişi sisteme düştüğünde mutfak içeceği görür, atölye istasyonu ise seçilen heykel modelini, boya setini ve ek malzemeleri görür. İki operasyon birbirini beklemeden kendi hazırlık sürecini yürütür.
+2. **Kural bazlı seans kontrolü.** Atölye kafelerin en büyük maliyet kaybı, masayı saatlerce tek bir kahveyle meşgul eden kullanıcılardır. Sistem, masaya sipariş verilirken "en az bir atölye parçası ve içecek" gibi işletme kurallarını nazikçe denetler.
+3. **Fiziksel zemin ergonomisi.** Müşteri masada kart bilgisi girmekle uğraşmaz. Siparişini tek dokunuşla verir, boyasını yaparken kahvesini içer. Hesap seans bitiminde masaya gelen kablosuz POS veya kasadan tahsil edilir.
+4. **Kodsuz vitrin ve baskı motoru.** İşletme sahibi değişen atölye seans saatlerini, manşet afişlerini veya atölye modellerini tek tıkla düzenler. Masalar için akrilik stand QR baskılarını harici grafikere ihtiyaç duymadan doğrudan tarayıcıdan alır.
+
+---
+
 ## Tasarım ilkeleri
 
 1. **Fiziksel zemin gerçekliği.** Seramik ve heykel masalarında boya, su ve fırça bulunur. Buton boyutları parmak alanına göre dengelenmiştir, gereksiz form adımları içermez.
