@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useApp } from '../context/AppContext';
-import { ShoppingBag, Check, Clock } from 'lucide-react';
+import { ShoppingBag, Clock } from 'lucide-react';
 
 interface HeaderProps {
   onOpenCart: () => void;

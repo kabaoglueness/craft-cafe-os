@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { 
   CHANGELOG_RELEASES, 
   OPERATIONAL_GUIDES, 
-  FAQ_KAFIYE, 
-  GuideTopic 
+  FAQ_KAFIYE
 } from '../data/guideData';
 import { 
   BookOpen, 
@@ -14,11 +13,7 @@ import {
   Search, 
   ChevronDown, 
   ChevronUp, 
-  CheckCircle2, 
-  Sparkles, 
-  Layers, 
-  Lightbulb, 
-  ShieldCheck 
+  Lightbulb 
 } from 'lucide-react';
 
 export const AdminGuide: React.FC = () => {

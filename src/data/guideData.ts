@@ -73,7 +73,7 @@ export const OPERATIONAL_GUIDES: GuideTopic[] = [
     category: 'kds',
     summary: 'Masalardan gelen siparişlerin atölye ve mutfak hazırlık aşamalarını takip etme.',
     steps: [
-      'Mutfak ve servis personeli "mutfak" şifresiyle Personel Portalı\'ndan giriş yapar.',
+      'Mutfak ve servis personeli kendi şifresiyle Personel Portalı\'ndan giriş yapar.',
       'Yeni bir masa siparişi düştüğünde kartta masa numarası, müşteri adı ve sipariş kalemleri listelenir.',
       'Aşamayı güncellemek için "Atölye" veya "Mutfak" satırına bir kez tıklayın.',
       'Açılan çizgideki 3 adımdan uygun olanına (1. Hazırlanıyor, 2. Masaya Çıktı, 3. Teslim Edildi) tıklayın.',
@@ -100,7 +100,7 @@ export const OPERATIONAL_GUIDES: GuideTopic[] = [
     category: 'editor',
     summary: 'Kod yazmadan mağazanın karşılama ekranını, metinleri ve bölüm sıralamasını değiştirme.',
     steps: [
-      'Yönetici panelinden "Görsel Mağaza Düzenleyicisi" butonuna tıklayın veya "editör" şifresiyle doğrudan giriş yapın.',
+      'Yönetici panelinden "Görsel Mağaza Düzenleyicisi" butonuna tıklayın veya editör şifresiyle doğrudan giriş yapın.',
       'Sol menüden ana manşet başlığını, alt açıklamasını ve seans saatlerini dilediğiniz gibi yazın.',
       '"Sayfa Bölümleri & Sıralama" alanında bölümlerin yanındaki [⬆] ve [⬇] oklarını kullanarak vitrin sıralamasını değiştirin.',
       'Bölüm başlıklarının üzerine tıklayarak doğrudan kendi istediğiniz başlığı yazın.',
@@ -134,7 +134,7 @@ export const FAQ_KAFIYE: { q: string; a: string }[] = [
   },
   {
     q: 'Editör şifresi ile giren kişi finansal ciro verilerini görebilir mi?',
-    a: 'Hayır. Sistem katı bir yetki yalıtımına sahiptir. Editör sadece görsel vitrini düzenleyebilir; ciro, siparişler ve mekan kuralları yalnızca "yonetici" (Admin) yetkisine açıktır.'
+    a: 'Hayır. Sistem katı bir yetki yalıtımına sahiptir. Editör sadece görsel vitrini düzenleyebilir; ciro, siparişler ve mekan kuralları yalnızca Yönetici (Admin) yetkisine açıktır.'
   },
   {
     q: 'Kafe menüsüne yeni kahve veya tatlı ekleyebilir miyiz?',

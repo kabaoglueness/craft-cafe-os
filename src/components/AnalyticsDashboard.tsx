@@ -7,15 +7,11 @@ import {
   Users, 
   Palette, 
   Coffee, 
-  Clock, 
-  Calendar, 
-  ArrowUpRight, 
-  Sparkles,
   Award
 } from 'lucide-react';
 
 export const AnalyticsDashboard: React.FC = () => {
-  const { orders, workshopItems, cafeItems, venueSettings } = useApp();
+  const { orders, workshopItems } = useApp();
   const [timeRange, setTimeRange] = useState<'today' | 'week' | 'month'>('today');
 
   // Total metrics
@@ -46,7 +42,6 @@ export const AnalyticsDashboard: React.FC = () => {
 
   // Best selling items
   const sortedWorkshop = [...workshopItems].sort((a, b) => (b.totalSold || 0) - (a.totalSold || 0));
-  const sortedCafe = [...cafeItems].sort((a, b) => (b.totalSold || 0) - (a.totalSold || 0));
 
   // Hourly density mock
   const hourlyData = [

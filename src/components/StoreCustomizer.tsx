@@ -688,7 +688,7 @@ export const StoreCustomizer: React.FC = () => {
 
                 {/* All Menu Button */}
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-[#8C827A]">Vitrin "Tüm Menüyü İncele" Butonu</label>
+                  <label className="text-xs font-medium text-[#8C827A]">Vitrin &ldquo;Tüm Menüyü İncele&rdquo; Butonu</label>
                   <input
                     type="text"
                     value={draft.allMenuButtonText || 'Tüm Menüyü İncele'}
@@ -699,7 +699,7 @@ export const StoreCustomizer: React.FC = () => {
 
                 {/* Item Card Button */}
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-[#8C827A]">Ürün Kartı "Sipariş Ver" Butonu</label>
+                  <label className="text-xs font-medium text-[#8C827A]">Ürün Kartı &ldquo;Sipariş Ver&rdquo; Butonu</label>
                   <input
                     type="text"
                     value={draft.itemCardButtonText || 'Sipariş Ver →'}
@@ -836,7 +836,7 @@ export const StoreCustomizer: React.FC = () => {
               <div className="space-y-3.5 pt-3 border-t border-[#F0EAE1]">
                 <span className="text-xs font-semibold text-[#211D1A] flex items-center gap-1.5">
                   <Paintbrush className="w-3.5 h-3.5 text-[#B3542E]" />
-                  <span>2. 5'li Gelişmiş Renk Paleti</span>
+                  <span>2. 5&apos;li Gelişmiş Renk Paleti</span>
                 </span>
 
                 {/* 1. Primary Color */}

@@ -1,33 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useApp } from '../context/AppContext';
-import { Lock, ArrowRight, ShieldCheck, UserCheck, ArrowLeft, AlertCircle, ChevronDown, ChevronUp, LayoutTemplate, BarChart3 } from 'lucide-react';
+import { Lock, ArrowRight, ArrowLeft, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 export const StaffLogin: React.FC = () => {
   const { loginWithPasscode, setActiveView } = useApp();
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [showTestHelpers, setShowTestHelpers] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (!passcode.trim()) {
       setError('Lütfen bir personel şifresi giriniz.');
+      inputRef.current?.focus();
       return;
     }
 
     const res = loginWithPasscode(passcode);
     if (!res.success) {
-      setError(res.message || 'Geçersiz şifre.');
+      setError(res.message || 'Geçersiz personel şifresi. Lütfen tekrar deneyin.');
+      setPasscode('');
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 10);
     }
-  };
-
-  const handleQuickLogin = (code: string) => {
-    setPasscode(code);
-    setError(null);
-    loginWithPasscode(code);
   };
 
   return (
@@ -70,18 +70,30 @@ export const StaffLogin: React.FC = () => {
             <label className="text-xs font-medium text-[#6E655F] block text-center">
               Giriş Şifresi
             </label>
-            <input
-              type="password"
-              required
-              autoFocus
-              placeholder="••••••••"
-              value={passcode}
-              onChange={(e) => {
-                setPasscode(e.target.value);
-                if (error) setError(null);
-              }}
-              className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E7DFD5] rounded-xl text-center text-sm font-medium text-[#211D1A] placeholder-[#9E948C] focus:outline-none focus:border-[#B3542E]"
-            />
+            <div className="relative">
+              <input
+                ref={inputRef}
+                type={showPassword ? 'text' : 'password'}
+                required
+                autoFocus
+                placeholder="••••••••"
+                value={passcode}
+                onChange={(e) => {
+                  setPasscode(e.target.value);
+                  if (error) setError(null);
+                }}
+                className="w-full pl-10 pr-10 py-3 bg-[#FAF7F2] border border-[#E7DFD5] rounded-xl text-center text-sm font-medium text-[#211D1A] placeholder-[#9E948C] focus:outline-none focus:border-[#B3542E] transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+                aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C827A] hover:text-[#211D1A] p-1.5 rounded-lg transition-colors cursor-pointer"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
 
           <button
@@ -92,84 +104,6 @@ export const StaffLogin: React.FC = () => {
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
-
-        {/* Collapsible Test Mode Helpers */}
-        <div className="pt-3 border-t border-[#F0EAE1]">
-          <button
-            type="button"
-            onClick={() => setShowTestHelpers(!showTestHelpers)}
-            className="w-full py-1 text-center text-[11px] font-medium text-[#8C827A] hover:text-[#211D1A] flex items-center justify-center gap-1 cursor-pointer transition-colors"
-          >
-            <span>{showTestHelpers ? 'Hızlı Giriş Kısayollarını Gizle' : 'Hızlı Giriş Kısayolları'}</span>
-            {showTestHelpers ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-          </button>
-
-          {showTestHelpers && (
-            <div className="pt-3 space-y-2.5 animate-in fade-in duration-150">
-              <p className="text-[10px] text-[#A69B91] text-center">
-                Canlı sürümde bu alan kapalıdır. Test aşamasında şifre yazmadan tek tıkla panele geçebilirsiniz:
-              </p>
-
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('yonetici')}
-                  className="p-2.5 rounded-xl border border-[#E7DFD5] bg-[#FAF7F2] hover:bg-[#F3ECE2] text-left transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-[#B3542E]">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Yönetici</span>
-                  </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Ahmet</div>
-                  <div className="text-[10px] text-[#8C827A]">Yetkili Girişi</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('mutfak')}
-                  className="p-2.5 rounded-xl border border-[#E7DFD5] bg-[#FAF7F2] hover:bg-[#F3ECE2] text-left transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-[#2C5282]">
-                    <UserCheck className="w-3.5 h-3.5" />
-                    <span>Mutfak / KDS</span>
-                  </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Deniz</div>
-                  <div className="text-[10px] text-[#8C827A]">İstasyon Girişi</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('editor')}
-                  className="p-2.5 rounded-xl border border-[#E7DFD5] bg-[#FAF7F2] hover:bg-[#F3ECE2] text-left transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-[#4E5E48]">
-                    <LayoutTemplate className="w-3.5 h-3.5" />
-                    <span>Mağaza Editörü</span>
-                  </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Zeynep</div>
-                  <div className="text-[10px] text-[#8C827A]">Tasarım Girişi</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('analist')}
-                  className="p-2.5 rounded-xl border border-[#D0C2EE] bg-[#F7F4FD] hover:bg-[#EFE9FC] text-left transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-[#6B46C1]">
-                    <BarChart3 className="w-3.5 h-3.5" />
-                    <span>Finans & Analist</span>
-                  </div>
-                  <div className="text-[11px] text-[#211D1A] font-semibold">Can</div>
-                  <div className="text-[10px] text-[#8C827A]">Rapor Girişi</div>
-                </button>
-              </div>
-
-              <div className="text-[10px] text-[#A69B91] text-center">
-                Ahmet (Yönetici) • Deniz (KDS) • Zeynep (Vitrin Editörü) • Can (Finans & Analiz)
-              </div>
-            </div>
-          )}
-        </div>
 
       </div>
     </div>

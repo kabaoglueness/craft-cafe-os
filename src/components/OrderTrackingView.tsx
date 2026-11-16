@@ -6,14 +6,10 @@ import {
   Palette, 
   Coffee, 
   Check, 
-  Clock, 
   ArrowLeft, 
   Plus, 
-  Sparkles, 
   CreditCard, 
-  CheckCircle2, 
   BellRing,
-  HelpCircle,
   Package
 } from 'lucide-react';
 import { StationProgressStatus } from '../types';
@@ -55,10 +51,8 @@ export const OrderTrackingView: React.FC = () => {
   const { 
     orders, 
     activeOrderId, 
-    setActiveOrderId, 
     tableNumber, 
-    setActiveView, 
-    venueSettings 
+    setActiveView 
   } = useApp();
 
   const [waiterCalled, setWaiterCalled] = useState(false);
@@ -368,13 +362,25 @@ export const OrderTrackingView: React.FC = () => {
         </div>
 
         {/* Bottom Actions */}
-        <div className="pt-2">
+        <div className="pt-2 flex flex-col sm:flex-row gap-2">
           <button
             onClick={() => setActiveView('customer_menu')}
-            className="w-full py-3.5 bg-[#211D1A] hover:bg-[#38322D] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs active:scale-[0.99]"
+            className="flex-1 py-3.5 bg-[#211D1A] hover:bg-[#38322D] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs active:scale-[0.99]"
           >
             <Plus className="w-4 h-4" />
             <span>Menüye Dön & Ek İçecek / Heykel Ekle</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleCallWaiter}
+            className={`px-4 py-3.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+              waiterCalled 
+                ? 'bg-[#EEF3EC] border-[#C3D9BD] text-[#3B6634]' 
+                : 'bg-white border-[#E7DFD5] text-[#211D1A] hover:bg-[#FAF7F2]'
+            }`}
+          >
+            <BellRing className="w-4 h-4 text-[#B3542E]" />
+            <span>{waiterCalled ? 'Garson Bildirildi ✓' : 'Yardım & Garson İste'}</span>
           </button>
         </div>
 

@@ -5,24 +5,18 @@ import { useApp } from '../context/AppContext';
 import { 
   ArrowRight, 
   ArrowDown,
-  Palette, 
   Clock, 
   MapPin, 
-  Info, 
-  HelpCircle, 
-  Users,
-  Compass,
   ExternalLink
 } from 'lucide-react';
 import { StorefrontSectionItem } from '../types';
 
 export const StoreLanding: React.FC = () => {
-  const { setActiveView, venueSettings, workshopItems, tableNumber } = useApp();
+  const { setActiveView, venueSettings, workshopItems } = useApp();
   const config = venueSettings.storefront;
   const theme = venueSettings.theme;
   const isDark = theme?.preset === 'midnight_espresso';
   const primaryColor = theme?.primaryColor || '#B3542E';
-  const secondaryColor = theme?.secondaryColor || '#C97A4E';
   const cardColor = theme?.cardColor || (isDark ? '#221E1C' : '#FFFFFF');
   const textColor = theme?.textColor || (isDark ? '#F5EFEB' : '#211D1A');
 
@@ -227,7 +221,7 @@ export const StoreLanding: React.FC = () => {
                       </h3>
                       <p className="text-xs text-[#6E655F] line-clamp-1">{item.description}</p>
                       <div className="pt-2 flex items-center justify-between border-t border-[#F0EAE1]">
-                        <span className="text-xs font-bold" style={{ color: textColor }}>{item.sizes[0]?.price} ₺'den başlayan</span>
+                        <span className="text-xs font-bold" style={{ color: textColor }}>{item.sizes[0]?.price} ₺&apos;den başlayan</span>
                         <span className="text-xs font-semibold" style={{ color: primaryColor }}>
                           {config?.itemCardButtonText || 'Sipariş Ver →'}
                         </span>

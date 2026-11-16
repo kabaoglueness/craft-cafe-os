@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { 
   CartItem, 
   CartWorkshopSelection, 
@@ -29,8 +29,8 @@ export type UserRoleView = 'store' | 'customer_menu' | 'order_tracking' | 'login
 export const INITIAL_STAFF: StaffUser[] = [
   { id: 'u-ahmet', name: 'Ahmet Yılmaz (İşletme Yöneticisi)', passcode: 'yonetici', role: 'admin', phone: '+90 (555) 010 20 30' },
   { id: 'u-deniz', name: 'Deniz Kaya (KDS Sorumlusu)', passcode: 'mutfak', role: 'kitchen', phone: '+90 (555) 010 20 31' },
-  { id: 'u-zeynep', name: 'Zeynep Demir (Vitrin Editörü)', passcode: 'editor', role: 'editor', phone: '+90 (555) 010 20 32' },
-  { id: 'u-can', name: 'Can Arslan (Finans & Analist)', passcode: 'analist', role: 'analyst', phone: '+90 (555) 010 20 33' },
+  { id: 'u-zeynep', name: 'Zeynep Demir (Vitrin Editörü)', passcode: 'edit', role: 'editor', phone: '+90 (555) 010 20 32' },
+  { id: 'u-can', name: 'Can Arslan (Finans & Analist)', passcode: 'analiz', role: 'analyst', phone: '+90 (555) 010 20 33' },
 ];
 
 export const REGISTERED_STAFF = INITIAL_STAFF;
@@ -125,7 +125,7 @@ function safeSetStorage(key: string, value: string) {
   try {
     localStorage.setItem(key, value);
   } catch (err) {
-    if (err instanceof DOMException && (err.name === 'QuotaExceededError' || (err as any).code === 22)) {
+    if (err instanceof DOMException && (err.name === 'QuotaExceededError' || (err as { code?: number }).code === 22)) {
       console.warn(`Tarayıcı yerel depolama kotası aşıldı (${key}).`);
     } else {
       console.warn(`LocalStorage yazma hatası (${key}):`, err);
@@ -147,7 +147,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-      (window as any).__setActiveView = setActiveView;
+      (window as unknown as { __setActiveView?: (view: UserRoleView) => void }).__setActiveView = setActiveView;
     }
   }, [setActiveView]);
 
@@ -177,77 +177,84 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('ab_cafe_items');
     localStorage.removeItem('ab_cafe_items_v4');
 
-    const savedOrders = localStorage.getItem('ab_orders');
-    if (savedOrders) {
-      try { 
-        const parsed: ActiveOrder[] = JSON.parse(savedOrders); 
-        const normalized = parsed.map(o => ({
-          ...o,
-          workshopStatus: (o.workshopStatus === 'paketlendi' || o.workshopStatus === 'masaya_teslim' || o.workshopStatus === 'teslim_edildi')
-            ? ('teslim_edildi' as const)
-            : (o.workshopStatus === 'boyaniyor' || o.workshopStatus === 'vernik_kurutma' || o.workshopStatus === 'yola_cikti')
-            ? ('yola_cikti' as const)
-            : ('hazirlaniyor' as const),
-          kitchenStatus: (o.kitchenStatus === 'servis_edildi' || o.kitchenStatus === 'teslim_edildi')
-            ? ('teslim_edildi' as const)
-            : (o.kitchenStatus === 'yola_cikti')
-            ? ('yola_cikti' as const)
-            : ('hazirlaniyor' as const)
-        }));
-        setOrders(normalized);
-      } catch (e) { console.error(e); }
-    }
-    const savedSettings = localStorage.getItem('ab_venue_settings');
-    if (savedSettings) {
-      try { 
-        const parsed = JSON.parse(savedSettings);
-        if (!parsed.theme) {
-          parsed.theme = INITIAL_VENUE_SETTINGS.theme;
-        }
-        setVenueSettings(parsed); 
-      } catch (e) { console.error(e); }
-    }
-    const savedWorkshop = localStorage.getItem('ab_workshop_items_v6');
-    if (savedWorkshop) {
-      try { setWorkshopItems(JSON.parse(savedWorkshop)); } catch (e) { console.error(e); }
-    }
-    const savedCafe = localStorage.getItem('ab_cafe_items_v5');
-    if (savedCafe) {
-      try { setCafeItems(JSON.parse(savedCafe)); } catch (e) { console.error(e); }
-    }
-    const savedStaff = localStorage.getItem('ab_staff_list_v3');
-    if (savedStaff) {
-      try { setStaffList(JSON.parse(savedStaff)); } catch (e) { console.error(e); }
-    }
-    const savedCart = localStorage.getItem('ab_cart_v1');
-    if (savedCart) {
-      try { setCart(JSON.parse(savedCart)); } catch (e) { console.error(e); }
-    }
+    const timer = setTimeout(() => {
+      const savedOrders = localStorage.getItem('ab_orders');
+      if (savedOrders) {
+        try { 
+          const parsed: ActiveOrder[] = JSON.parse(savedOrders); 
+          const normalized = parsed.map(o => ({
+            ...o,
+            workshopStatus: (o.workshopStatus === 'paketlendi' || o.workshopStatus === 'masaya_teslim' || o.workshopStatus === 'teslim_edildi')
+              ? ('teslim_edildi' as const)
+              : (o.workshopStatus === 'boyaniyor' || o.workshopStatus === 'vernik_kurutma' || o.workshopStatus === 'yola_cikti')
+              ? ('yola_cikti' as const)
+              : ('hazirlaniyor' as const),
+            kitchenStatus: (o.kitchenStatus === 'servis_edildi' || o.kitchenStatus === 'teslim_edildi')
+              ? ('teslim_edildi' as const)
+              : (o.kitchenStatus === 'yola_cikti')
+              ? ('yola_cikti' as const)
+              : ('hazirlaniyor' as const)
+          }));
+          setOrders(normalized);
+        } catch (e) { console.error(e); }
+      }
+      const savedSettings = localStorage.getItem('ab_venue_settings');
+      let loadedTableCount = 18;
+      if (savedSettings) {
+        try { 
+          const parsed = JSON.parse(savedSettings);
+          if (!parsed.theme) {
+            parsed.theme = INITIAL_VENUE_SETTINGS.theme;
+          }
+          if (parsed.tableCount) {
+            loadedTableCount = parsed.tableCount;
+          }
+          setVenueSettings(parsed); 
+        } catch (e) { console.error(e); }
+      }
+      const savedWorkshop = localStorage.getItem('ab_workshop_items_v6');
+      if (savedWorkshop) {
+        try { setWorkshopItems(JSON.parse(savedWorkshop)); } catch (e) { console.error(e); }
+      }
+      const savedCafe = localStorage.getItem('ab_cafe_items_v5');
+      if (savedCafe) {
+        try { setCafeItems(JSON.parse(savedCafe)); } catch (e) { console.error(e); }
+      }
+      const savedStaff = localStorage.getItem('ab_staff_list_v4');
+      if (savedStaff) {
+        try { setStaffList(JSON.parse(savedStaff)); } catch (e) { console.error(e); }
+      }
+      const savedCart = localStorage.getItem('ab_cart_v1');
+      if (savedCart) {
+        try { setCart(JSON.parse(savedCart)); } catch (e) { console.error(e); }
+      }
 
-    // Table QR Code auto-detection from URL (e.g. ?table=12, ?masa=12, ?m=12)
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const tableQuery = params.get('table') || params.get('masa') || params.get('m');
-      if (tableQuery) {
-        const parsed = parseInt(tableQuery, 10);
-        if (!isNaN(parsed) && parsed > 0) {
-          const maxTbl = venueSettings.tableCount || 18;
-          const bounded = Math.min(parsed, maxTbl);
-          setTableNumber(bounded);
-          safeSetStorage('ab_active_table', bounded.toString());
-        }
-      } else {
-        const savedTable = localStorage.getItem('ab_active_table');
-        if (savedTable) {
-          const parsed = parseInt(savedTable, 10);
+      // Table QR Code auto-detection from URL (e.g. ?table=12, ?masa=12, ?m=12)
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const tableQuery = params.get('table') || params.get('masa') || params.get('m');
+        if (tableQuery) {
+          const parsed = parseInt(tableQuery, 10);
           if (!isNaN(parsed) && parsed > 0) {
-            setTableNumber(parsed);
+            const bounded = Math.min(parsed, loadedTableCount);
+            setTableNumber(bounded);
+            safeSetStorage('ab_active_table', bounded.toString());
+          }
+        } else {
+          const savedTable = localStorage.getItem('ab_active_table');
+          if (savedTable) {
+            const parsed = parseInt(savedTable, 10);
+            if (!isNaN(parsed) && parsed > 0) {
+              setTableNumber(parsed);
+            }
           }
         }
       }
-    }
 
-    setIsHydrated(true);
+      setIsHydrated(true);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -277,7 +284,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isHydrated) return;
-    safeSetStorage('ab_staff_list_v3', JSON.stringify(staffList));
+    safeSetStorage('ab_staff_list_v4', JSON.stringify(staffList));
   }, [staffList, isHydrated]);
 
   useEffect(() => {
@@ -286,7 +293,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [cart, isHydrated]);
 
   // Staff Authentication & Role Handling
-  const loginWithPasscode = (passcode: string): { success: boolean; message?: string } => {
+  const loginWithPasscode = useCallback((passcode: string): { success: boolean; message?: string } => {
     const clean = passcode.trim().toLowerCase();
     const user = staffList.find(u => u.passcode.toLowerCase() === clean);
     if (!user) {
@@ -302,11 +309,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setActiveView('kitchen');
     }
     return { success: true };
-  };
+  }, [staffList, setActiveView]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-      (window as any).__loginWithPasscode = loginWithPasscode;
+      (window as unknown as { __loginWithPasscode?: typeof loginWithPasscode }).__loginWithPasscode = loginWithPasscode;
     }
   }, [loginWithPasscode]);
 

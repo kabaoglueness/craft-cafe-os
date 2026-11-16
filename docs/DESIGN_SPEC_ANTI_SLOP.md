@@ -99,6 +99,13 @@ Modern arayüz üretiminde yapay zeka ajanlarının ve şablon kütüphanelerini
 - **Yasaklanan Model:** Proje içinde kahve istasyonuna bir yerde "Barista", bir yerde "Mutfak", sipariş durumuna bir yerde "Hazır", bir yerde "Fırında" denilmesi.
 - **Neden:** Tutarsız terimler hem mutfaktaki personelin hem de masadaki müşterinin kafasını karıştırır. İşletmenin kimliği ne ise baştan sona tekilleştirilmelidir. Projemizde kullanıcı kararıyla "Barista" değil, tüm yiyecek/içecek hazırlığı için **"Mutfak"** terimi kural olarak sabitlenmiştir.
 
+### 2.8. Auth & Güvenlik UX Anti-Pattern: Giriş Ekranına "Tek Tıkla Giriş / Demo Bypass" Butonları Koymak
+- **Yasaklanan Model:** Müşterinin ve personelin erişebileceği giriş ekranlarına "Ahmet (Yönetici)", "Deniz (Mutfak)", "Zeynep (Editör)" gibi tek tıkla şifresiz giriş yapan test/demo kısayol butonları koymak.
+- **Tasarım Psikolojisi & Nedenleri:**
+  - Gerçek işletme operasyonlarında ve müşterinin/ziyaretçinin fiziksel veya dijital olarak erişebileceği bir ekranda bu tür bypass butonları bırakmak amatörlük, kurumsal ciddiyetsizlik ve ucuz yapay zeka (AI slop) şablon göstergesidir.
+  - Şifre alanı saygındır, ciddidir ve gizlidir. Müşteri arayüzünden "Personel Portalı"na tıklandığında işletme ciddiyetine uygun, güven veren, temiz ve yalın bir parola girişi karşılamalıdır. Test amaçlı geçici araçlar prodüksiyon/canlı kullanıcı deneyimine sızdırılmamalıdır.
+- **Doğru Uygulama:** Giriş ekranında yalnızca işlevsel ve ergonomik bir şifre input'u, şifre görünürlük anahtarı ve "Panele Giriş Yap" birincil butonu yer almalıdır.
+
 ---
 
 ## 3. Ne İstendi (Best Practices / Kurallar) ve Nedenleri
@@ -154,6 +161,14 @@ Başlık boyutları sadece font boyutundan (`text-2xl` vs `text-4xl`) ibaret de�
    - Personel şifreleri açıkta duramaz; varsayılan olarak `••••••••` şeklinde maskelenmeli, göze tıklanarak açılmalıdır.
    - Yüklenen fotoğraflar doğrudan localStorage'a basılırsa 5 MB kota (`QuotaExceededError`) patlar. Bu sebeple istemci tarafında Canvas ile 800px ve 0.75 kaliteye otomatik sıkıştırma (`compressImageFile`) uygulanmalıdır.
 
+### 3.5. Auth Ergonomisi: Şifre Görünürlüğü (Password Visibility Toggle) & Hata Anında Otomatik Temizleme (Auto-clear on Auth Failure)
+1. **Şifre Görünürlüğü (Eye / EyeOff Toggle):**
+   - Şifre input'larında gizle/göster (göz ikonu) bulunmaması kullanıcıda belirsizlik, klavye/büyük harf şüphesi ve hata anksiyetesi yaratır.
+   - İkincil tıklama odağını bozmamak için toggle butonu `tabIndex={-1}`, `aria-label` tanımlı ve sağ kenarda optik olarak hizalanmalıdır.
+2. **Hata Anında Otomatik Temizleme & Odak (Auto-clear & Refocus on Auth Failure):**
+   - Kullanıcı yanlış şifre girdiğinde eski hatalı metni elle seçip silmek veya backspace tuşuna defalarca basmak zorunda bırakılmamalıdır.
+   - Doğrulama başarısız olduğunda input anında otomatik olarak sıfırlanmalı (`setPasscode('')`) ve tekrar `inputRef.current?.focus()` ile odaklanarak kullanıcının sürtünmesi (friction) sıfırlanmalıdır.
+
 ---
 
 ## 4. Özel Skill Katkısı (Skill Contribution Snippet)
@@ -195,6 +210,13 @@ Bu bölüm, kullanıcının global beceri kütüphanesine (`C:\Users\Lost_\.gemi
 8. **Üst Bar & Mobil Taşma Koruması:**
    - Yönetici ve editör üst barlarında satır taşması (`wrap`) engellenmeli, `whitespace-nowrap shrink-0` ile butonların ekrandan kesilmesi önlenmelidir.
    - Tek sayfa React geçişlerinde (`activeView` değişimi) anında `window.scrollTo(0, 0)` çalıştırılmalıdır.
+
+9. **Auth Güvenlik & Saygınlık Standardı (No Bypass Buttons):**
+   - Kamuya veya müşteriye açık ekranlarda personel/yönetici girişine "Tek Tıkla Giriş / Demo Butonları" koymak yasaktır. Şifre alanı saygın, sade ve gizlidir.
+
+10. **Şifre Ergonomisi & Sürtünmesiz Yeniden Deneme (Password Visibility & Auto-clear Focus):**
+    - Şifre alanlarında göz ikonu bulunmalıdır (`Eye / EyeOff`).
+    - Hatalı şifre girişinde input otomatik temizlenmeli (`setPasscode('')`) ve anında `inputRef.focus()` alarak kullanıcının zahmetsizce tekrar denemesi sağlanmalıdır.
 <!-- END: CRAFT-FLOOR & ANTI-SLOP SPECIFICATION -->
 ```
 
@@ -210,6 +232,7 @@ Bu bölüm, kullanıcının global beceri kütüphanesine (`C:\Users\Lost_\.gemi
 | `StaffDashboard.tsx`| Akordeon açmadan sipariş ilerletilemeyen KDS & "Barista" karmaşası | 1-tap "Masaya Çıkar / Teslim Et" butonları & "Mutfak" standardı | "Estetikle beraber işlevsellik gerekir." |
 | `StoreCustomizer.tsx`| `T KARŞILAMA METİNLERİ` kicker'ı & sağdan taşan dar üst bar | Sentence case sakin başlıklar & `whitespace-nowrap shrink-0` üst bar | "Üst bar hiç de düzgün yerleşmiyor." |
 | `AdminPortal.tsx` | Büyük "Yeni Model Ekle" yanında ezilen minik çıkış butonu | Eşit yükseklik, net kontrast ve dengeli çıkış aksiyonu | "Çıkış neden o kadar küçük?" |
+| `StaffLogin.tsx` | "Hızlı Giriş Kısayolları" bypass butonları, göz ikonu olmayan şifre alanı, hatalı girişte eski şifrenin silinmemesi | Demo bypass butonları kaldırıldı, Eye/EyeOff toggle eklendi, hatalı girişte otomatik temizleme ve anında `inputRef.focus()` sağlandı | "Personel portalında şifre alanına tek tıkla giriş koymak tam bir AI slop göstergesi, şifre alanı saygın olmalı." |
 
 ---
 

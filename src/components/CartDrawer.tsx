@@ -300,7 +300,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
                         {cartItem.specialNotes && (
                           <p className="text-[11px] text-[#8C827A] italic mt-1">
-                            "{cartItem.specialNotes}"
+                            &ldquo;{cartItem.specialNotes}&rdquo;
                           </p>
                         )}
                       </div>

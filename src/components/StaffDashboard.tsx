@@ -11,12 +11,9 @@ import {
   Coffee,
   ChevronDown,
   ChevronUp,
-  Check,
-  Sparkles
+  Check
 } from 'lucide-react';
 import { 
-  WorkshopStationStatus, 
-  KitchenStationStatus,
   StationProgressStatus
 } from '../types';
 import { normalizeStatus } from '../utils/orderStatus';
@@ -78,7 +75,6 @@ const StationProgressItem: React.FC<StationProgressProps> = ({
   const activeIndex = STAGES.findIndex(s => s.id === normalized);
   const currentStage = STAGES[activeIndex] || STAGES[0];
 
-  const brandColor = stationType === 'workshop' ? '#B3542E' : '#2C5282';
   const brandBg = stationType === 'workshop' ? 'bg-[#B3542E]' : 'bg-[#2C5282]';
 
   return (
@@ -479,7 +475,7 @@ export const StaffDashboard: React.FC = () => {
 
                     {item.specialNotes && (
                       <div className="text-[10px] text-[#6E655F] italic bg-white px-2 py-0.5 rounded border border-[#E7DFD5]">
-                        "{item.specialNotes}"
+                        &ldquo;{item.specialNotes}&rdquo;
                       </div>
                     )}
                   </div>

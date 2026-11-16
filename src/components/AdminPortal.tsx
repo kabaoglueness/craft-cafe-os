@@ -14,7 +14,6 @@ import {
   AlertTriangle,
   Minus,
   TrendingUp,
-  Tag,
   BarChart3,
   LayoutTemplate,
   BookOpen,
@@ -24,7 +23,6 @@ import {
   Shield,
   KeyRound,
   CheckCircle2,
-  Lock,
   Edit2,
   QrCode,
   Printer,
@@ -41,7 +39,7 @@ import {
   EyeOff
 } from 'lucide-react';
 import QRCode from 'qrcode';
-import { WorkshopCategory, CafeCategory, WorkshopItem, CafeItem, StaffRole, StaffUser } from '../types';
+import { WorkshopCategory, CafeCategory, WorkshopItem, CafeItem, StaffRole } from '../types';
 import { compressImageFile } from '../utils/imageCompression';
 
 export const AdminPortal: React.FC = () => {
@@ -248,12 +246,6 @@ export const AdminPortal: React.FC = () => {
       setDownloadingTable(null);
     }
   };
-
-  React.useEffect(() => {
-    if (isAnalyst) {
-      setActiveTab('analytics');
-    }
-  }, [isAnalyst]);
 
   // New staff form states
   const [isAddingStaff, setIsAddingStaff] = useState(false);
@@ -739,7 +731,7 @@ export const AdminPortal: React.FC = () => {
               <div className="flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>
-                  <strong>Kritik Stok Filtresi Aktif:</strong> Yalnızca stoğu 3 ve altı kalan modeller gösteriliyor. Stoğu kutudan artırıp 'Kaydet'e basabilirsiniz.
+                  <strong>Kritik Stok Filtresi Aktif:</strong> Yalnızca stoğu 3 ve altı kalan modeller gösteriliyor. Stoğu kutudan artırıp &apos;Kaydet&apos;e basabilirsiniz.
                 </span>
               </div>
               <button
@@ -818,6 +810,17 @@ export const AdminPortal: React.FC = () => {
                     required
                     value={newWsStock}
                     onChange={(e) => setNewWsStock(Number(e.target.value))}
+                    className="w-full px-3 py-2 border border-[#E7DFD5] rounded-xl text-xs focus:outline-none focus:border-[#B3542E]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-medium text-[#8C827A]">Tahmini Süre (Dk)</label>
+                  <input
+                    type="number"
+                    required
+                    value={newWsDuration}
+                    onChange={(e) => setNewWsDuration(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-[#E7DFD5] rounded-xl text-xs focus:outline-none focus:border-[#B3542E]"
                   />
                 </div>
@@ -1240,6 +1243,17 @@ export const AdminPortal: React.FC = () => {
                   placeholder="İki shot espresso ve az süt..."
                   value={newCfDescription}
                   onChange={(e) => setNewCfDescription(e.target.value)}
+                  className="w-full px-3 py-2 border border-[#E7DFD5] rounded-xl text-xs focus:outline-none focus:border-[#B3542E]"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-[#8C827A]">Görsel Bağlantısı (URL)</label>
+                <input
+                  type="url"
+                  placeholder="https://images.unsplash.com/..."
+                  value={newCfImage}
+                  onChange={(e) => setNewCfImage(e.target.value)}
                   className="w-full px-3 py-2 border border-[#E7DFD5] rounded-xl text-xs focus:outline-none focus:border-[#B3542E]"
                 />
               </div>
@@ -1865,7 +1879,7 @@ export const AdminPortal: React.FC = () => {
                     <input
                       type="text"
                       required
-                      placeholder="Örn: yonetici2026 veya mutfak"
+                      placeholder="Örn: gizli-sifre123"
                       value={newStaffPasscode}
                       onChange={(e) => setNewStaffPasscode(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#E7DFD5] rounded-xl text-xs font-mono font-semibold text-[#211D1A] focus:outline-none focus:border-[#6B46C1]"

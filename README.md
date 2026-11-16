@@ -64,14 +64,14 @@ Bu proje, geleneksel şablon veya yapay zeka arayüzlerinin aksine **gerçek bir
 
 ## 🔐 Demo Personel Profilleri
 
-Personel Portalı'na giriş yapmak için aşağıdaki demo profillerini veya paneldeki hızlı kısayolları kullanabilirsiniz:
+Personel Portalı'na giriş yapmak için aşağıdaki demo profillerini kullanabilirsiniz:
 
 | Rol | Ad Soyad / Ünvan | Giriş Şifresi | Yetki Kapsamı |
 | :--- | :--- | :---: | :--- |
 | **Yönetici** | Ahmet Yılmaz (İşletme Yöneticisi) | `yonetici` | Tam Yetki, Envanter, Fiyatlar, Personel, Ayarlar |
 | **Mutfak & KDS** | Deniz Kaya (KDS Sorumlusu) | `mutfak` | Atölye & Mutfak Sipariş İlerleme Ekranı |
-| **Vitrin Editörü** | Zeynep Demir (Vitrin Editörü) | `editor` | Görsel Mağaza Düzenleyicisi & Sıralama |
-| **Finans & Analist** | Can Arslan (Finans & Analist) | `analist` | Salt-Okunur Gelir Raporları & Saatlik Yoğunluk |
+| **Mağaza Editörü** | Zeynep Demir (Vitrin Editörü) | `edit` | Görsel Mağaza Düzenleyicisi & Sıralama |
+| **Finans & Analist** | Can Arslan (Finans & Analist) | `analiz` | Salt-Okunur Gelir Raporları & Saatlik Yoğunluk |
 
 ---
 
