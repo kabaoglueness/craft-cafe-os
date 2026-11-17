@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![Turbopack](https://img.shields.io/badge/Turbopack-Enabled-000000?style=flat-square&logo=vercel)](https://turbo.build/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=flat-square)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue?style=flat-square)](LICENSE)
 
 > **Canlı demo:** [craft-cafe-os.vercel.app](https://craft-cafe-os.vercel.app)  
 > **Masa QR sipariş simülasyonu:** [craft-cafe-os.vercel.app?table=4](https://craft-cafe-os.vercel.app?table=4) (Masa 4)
@@ -192,4 +192,4 @@ npm run start
 
 ## Lisans
 
-Bu proje [MIT Lisansı](LICENSE) ile sunulmaktadır.
+Bu proje [GNU General Public License v3.0](LICENSE) ile sunulmaktadır.
